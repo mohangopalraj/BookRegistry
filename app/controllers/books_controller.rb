@@ -1,12 +1,12 @@
 class BooksController < ApplicationController
 	helper_method :sort_column, :sort_direction
 
-	# def index
-	# 	@books = Book.all.order("#{sort_column} #{sort_direction}")
-	# 	if params[:search].present? && !params[:search].blank?
-	# 		@books = @books.where('name LIKE :search or author LIKE :search or isbn LIKE :search or price LIKE :search or category LIKE :search or status LIKE :search',search: "%#{params[:search]}%")
-	# 	end
-	# end
+	def index
+		@books = Book.all.order("#{sort_column} #{sort_direction}")
+		if params[:search].present? && !params[:search].blank?
+			@books = @books.where('name LIKE :search or author LIKE :search or isbn LIKE :search or price LIKE :search or category LIKE :search or status LIKE :search',search: "%#{params[:search]}%")
+		end
+	end
 
 	def new
 		@book = Book.new
