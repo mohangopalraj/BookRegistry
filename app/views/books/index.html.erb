@@ -1,0 +1,91 @@
+<div align="right">
+	<a href="<%= new_book_path %>">Add New Book</a>
+</div>&nbsp;&nbsp;&nbsp;
+
+<form style="width: 50%">
+<div class="input-group">  
+    <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control" %>  
+    <div class="input-group-btn">  
+      <%= button_tag "", :class => 'btn btn-info glyphicon glyphicon-search',:name => nil%>  
+    </div>  
+</div> 
+</form>
+<br/>		
+
+<div>
+	<% if @books!= nil && @books != [] %>
+		<table border="1" width="100%">
+			<thead><tr>
+				<th>SL.NO</th>
+				<th><%= sort_link "name" %></th>
+				<th><%= sort_link "author" %></th>
+				<th><%= sort_link "isbn" %></th>
+				<th><%= sort_link "price" %></th>
+				<th><%= sort_link "category" %></th>
+				<th><%= sort_link "status" %></th>
+				<th>Action</th>
+			</tr></thead>
+			<tbody>
+				<% @books.each_with_index do |book,index| %>
+				<tr>
+				<input type="hidden" id="book_id" name="book_id" value="<%=book.id%>">
+				<td><%=index+1%></td>
+				<td><%=book.name%></td>
+				<td><%=book.author%></td>
+				<td><%=book.isbn%></td>
+				<td><%=book.price%></td>
+				<td><%=book.category%></td>
+				<td class="book_publish"><%=book.status%></td>
+				<td><a href='<%= edit_book_path(book.id)%>'>Edit</a> | <%= link_to "Delete", book_path(book.id), method: :delete,data: { confirm:"Are you sure delete the book details?" } %> | <input type="button" class="edit-status" value="Edit Status"></input></td>
+				</tr>
+				<% end %>
+			</tbody>
+			</tr>
+		</table>
+	<% else %>
+		No books available here.
+	<% end %>
+</div>
+
+<script type="text/javascript">
+
+$(document).on("click", ".edit-status", function (e) {
+    var $this = $(this);
+    $this.toggleClass('edit-status');
+    if($this.hasClass('edit-status')){
+        $this.val('Edit Status');         
+    } else {
+        $this.val('Update Status');
+        $this.addClass('update-status')
+    }
+    var tableData_status = $(this).parent().parent().children(':nth-child(8)')
+    var tableData_status_value = tableData_status.text()
+    span=$("<select id='disp_status'>"+"<option value='Publish'>Publish</option>"+"<option value='Unpublish'>Unpublish</option>"+"</select>"+"<br/>")
+    tableData_status.html(span);      
+});
+
+$(document).on("click",".update-status", function(e){
+  var $this = $(this);
+    $this.toggleClass('update-status');
+    if($this.hasClass('update-status')){
+        $this.val('Update Status');         
+    } else {
+        $this.val('Edit Status');
+        $this.addClass('edit-status')
+    }
+  var book_id = $(this).parent().parent().children(':nth-child(1)').val();
+  var update_status_value = $("#disp_status").val();
+  var tableData_status = $(this).parent().parent().children(':nth-child(8)')
+  $.ajax({
+    url: '/books/'+book_id+'/update_status',
+    type: 'PATCH',
+    data: {status: update_status_value},
+    success: function(response) {
+        tableData_status.html('');
+        $(".book_publish").text(response.status);
+    }
+  });
+})	
+
+</script>
+

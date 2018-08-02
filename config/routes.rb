@@ -53,4 +53,10 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  resources :books do
+    member do
+      patch :update_status
+    end
+  end
+  
 end

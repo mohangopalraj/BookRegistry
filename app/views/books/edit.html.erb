@@ -1,0 +1,36 @@
+<div width="100%">
+	<%= form_for(@book,:html => {class: 'form-horizontal'}) do  |f| %>
+		<div>
+			<label>Name:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= f.text_field  :name, :required => true %>
+		</div><br/>
+		<div>
+			<label>Author Name:</label>
+			<%= f.text_field  :author, :required => true %>
+		</div><br/>
+		<div>
+			<label>ISBN:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= f.text_field  :isbn, :required => true %>
+		</div><br/>
+		<div>
+			<label>Category:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= f.text_field  :category, :required => true %>
+		</div><br/>
+		<div>
+			<label>Price:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<%= f.text_field  :price, :required => true %>
+		</div><br/>
+		<div>
+			<label>status:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<select id="book_status" name="book[status]" required="required">
+                <option value="">Select Status</option>
+                <option value="Publish" selected="selected">Publish</option>
+                <option value="Unpublish" selected="selected">Unpublish</option>
+            </select>
+		</div><br/><br/>
+		<div>
+		<%= f.submit "Submit", class: 'btn btn-theme02'  %>
+		</div>
+                    
+	<%end%>
+</div>
